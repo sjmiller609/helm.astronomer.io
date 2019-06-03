@@ -44,3 +44,16 @@ dependencies:
   # Airflow chart is deployed by the platform
   - name: airflow
     condition: global.airflowEnabled
+
+  # Istio
+  - name: istio-init
+    repository: "https://storage.googleapis.com/istio-release/releases/1.1.7/charts/"
+    condition: global.istioEnabled
+    tags:
+      - istio
+
+  - name: istio
+    repository: "https://storage.googleapis.com/istio-release/releases/1.1.7/charts/"
+    condition: global.istioEnabled
+    tags:
+      - istio
