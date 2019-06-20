@@ -23,6 +23,8 @@ metadata:
     cloud.google.com/load-balancer-type: "Internal"
     {{- end }}
 
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+
     # Metrics annotations
     prometheus.io/scrape: "true"
     prometheus.io/port: {{ .Values.ports.metrics | quote }}
