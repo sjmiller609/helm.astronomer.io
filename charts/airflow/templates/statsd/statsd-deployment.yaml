@@ -31,6 +31,9 @@ spec:
         platform: {{ .Values.platform.release }}
         workspace: {{ .Values.platform.workspace | quote }}
     spec:
+    {{- if .Values.statsd.runtimeClassName }}
+      runtimeClassName: {{ .Values.statsd.runtimeClassName }}
+    {{- end }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
       affinity:

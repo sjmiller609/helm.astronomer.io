@@ -32,6 +32,9 @@ spec:
         platform: {{ .Values.platform.release }}
         workspace: {{ .Values.platform.workspace | quote }}
     spec:
+    {{- if .Values.redis.runtimeClassName }}
+      runtimeClassName: {{ .Values.redis.runtimeClassName }}
+    {{- end }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
       affinity:

@@ -37,6 +37,9 @@ spec:
       annotations:
         checksum/pgbouncer-config-secret: {{ include (print $.Template.BasePath "/secrets/pgbouncer-config-secret.yaml") . | sha256sum }}
     spec:
+    {{- if .Values.pgbouncer.runtimeClassName }}
+      runtimeClassName: {{ .Values.pgbouncer.runtimeClassName }}
+    {{- end }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
       affinity:

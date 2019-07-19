@@ -125,6 +125,11 @@ fernetKeySecretName: ~
 
 # Airflow Worker Config
 workers:
+  # Set the runtime class name, e.g. Gvisor.
+  # Kubernetes nodes must be configured to support
+  # the runtime, if specified.
+  runtimeClassName: ~
+
   # Number of airflow celery workers in StatefulSet
   replicas: 1
 
@@ -157,6 +162,11 @@ workers:
 
 # Airflow scheduler settings
 scheduler:
+  # Set the runtime class name, e.g. Gvisor.
+  # Kubernetes nodes must be configured to support
+  # the runtime, if specified.
+  runtimeClassName: ~
+
   # Ensure we have one replica always running
   podDisruptionBudget:
     maxUnavailable: 1
@@ -171,6 +181,11 @@ scheduler:
 
 # Airflow webserver settings
 webserver:
+  # Set the runtime class name, e.g. Gvisor.
+  # Kubernetes nodes must be configured to support
+  # the runtime, if specified.
+  runtimeClassName: ~
+
   livenessProbe:
     initialDelaySeconds: 15
     timeoutSeconds: 30
@@ -199,6 +214,11 @@ webserver:
 
 # Flower settings
 flower:
+  # Set the runtime class name, e.g. Gvisor.
+  # Kubernetes nodes must be configured to support
+  # the runtime, if specified.
+  runtimeClassName: ~
+
   resources: {}
     # limits:
     #   cpu: 100m
@@ -209,6 +229,11 @@ flower:
 
 # Statsd settings
 statsd:
+  # Set the runtime class name, e.g. Gvisor.
+  # Kubernetes nodes must be configured to support
+  # the runtime, if specified.
+  runtimeClassName: ~
+
   resources: {}
     # limits:
     #   cpu: 100m
@@ -219,6 +244,11 @@ statsd:
 
 # Pgbouncer settings
 pgbouncer:
+  # Set the runtime class name, e.g. Gvisor.
+  # Kubernetes nodes must be configured to support
+  # the runtime, if specified.
+  runtimeClassName: ~
+
   # Enable pgbouncer
   enabled: false
 
@@ -238,6 +268,11 @@ pgbouncer:
     #   memory: 128Mi
 
 redis:
+  # Set the runtime class name, e.g. Gvisor.
+  # Kubernetes nodes must be configured to support
+  # the runtime, if specified.
+  runtimeClassName: ~
+
   terminationGracePeriodSeconds: 600
 
   persistence:
@@ -267,6 +302,11 @@ redis:
 # Auth secret for a private registry
 # This is used if pulling airflow images from a private registry
 registry:
+  # Set the runtime class name, e.g. Gvisor.
+  # Kubernetes nodes must be configured to support
+  # the runtime, if specified.
+  runtimeClassName: ~
+
   secretName: ~
 
   connection: {}
@@ -277,6 +317,7 @@ registry:
 
 # Elasticsearch logging configuration
 elasticsearch:
+
   # Enable elasticsearch task logging
   enabled: false
   # A secret containing the connection
