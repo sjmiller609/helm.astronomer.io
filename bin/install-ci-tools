@@ -39,6 +39,5 @@ cd /tmp
 wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_VERSION}-${OS}-x86_64.tar.gz
 tar xvzf ./google-cloud-sdk-${GCLOUD_VERSION}-${OS}-x86_64.tar.gz >/dev/null 2>&1
 export PATH=$(pwd)/google-cloud-sdk/bin/:$PATH
-gcloud init
 
 cd $REPO_DIR

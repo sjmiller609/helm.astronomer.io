@@ -17,8 +17,8 @@ for executable in gsutil kind helm kubectl docker; do
 done
 
 echo "Downloading development TLS cert chain and private key"
-gsutil cp gs://astronomer-development-certificates/fullchain.pem /tmp/fullchain.pem && \
-gsutil cp gs://astronomer-development-certificates/privkey.pem /tmp/privkey.pem
+BOTO_CONFIG=/dev/null gsutil cp gs://astronomer-development-certificates/fullchain.pem /tmp/fullchain.pem && \
+BOTO_CONFIG=/dev/null gsutil cp gs://astronomer-development-certificates/privkey.pem /tmp/privkey.pem
 if [ $? -eq 0 ]; then
   echo "Downloaded TLS secrets to /tmp/fullchain.pem and /tmp/privkey.pem"
 else
