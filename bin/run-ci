@@ -48,7 +48,7 @@ else
     set +x
     echo "======================="
   done
-if
+fi
 
 kubectl get pods --all-namespaces
 
