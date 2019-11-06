@@ -31,9 +31,9 @@ helm install \
   -n astronomer \
   -f configs/local-dev.yaml \
   --set tags.platform=true \
-  --set tags.logging=true \
-  --set tags.monitoring=true \
-  --set tags.kubed=true \
+  --set tags.logging=false \
+  --set tags.monitoring=false \
+  --set tags.kubed=false \
   $REPO_DIR
 
 sleep 5
