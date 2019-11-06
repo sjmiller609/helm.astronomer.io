@@ -15,15 +15,14 @@ source $REPO_DIR/bin/setup-kind
 
 echo "Deploying Astronomer..."
 
-
 set +ex
 
 kubectl get pods -n astronomer -w &
 WATCH_PID=$!
 
+START=$(date +%s)
+
 helm install \
-  --wait \
-  --timeout 500 \
   --namespace astronomer \
   -n astronomer \
   -f configs/local-dev.yaml \
@@ -33,7 +32,26 @@ helm install \
   --set tags.kubed=true \
   $REPO_DIR
 
-HELM_CODE=$?
+sleep 5
+
+kubectl get pods --all-namespaces | grep -v 1/1 | grep -v NAME >/dev/null 2>&1
+RC=$?
+HELM_CODE=0
+while [ $RC -eq 0 ]; do
+  NOW=$(date +%s)
+  DURATION="$(($NOW-$START))"
+  echo "${DURATION} seconds have elapsed, timeout at 800 seconds"
+  if [ $DURATION -gt 800 ];then
+    HELM_CODE=1
+    RC=0
+    echo "Error (timeout): giving up after 800 seconds"
+  else
+    sleep 10
+    kubectl get pods --all-namespaces | grep -v 1/1 | grep -v NAME >/dev/null 2>&1
+    RC=$?
+  fi
+done
+
 kill $WATCH_PID
 
 if [ $HELM_CODE -eq 0 ]; then
@@ -51,6 +69,8 @@ else
   done
 fi
 
+set -x
 kubectl get pods --all-namespaces
+helm list
 
 exit $HELM_CODE
