@@ -38,8 +38,8 @@ helm install \
 
 sleep 5
 
-kubectl get pods --all-namespaces | grep -v 1/1 | grep -v NAME >/dev/null 2>&1
-RC=$?
+# Wait for Astronomer to deploy
+RC=0
 HELM_CODE=0
 while [ $RC -eq 0 ]; do
   NOW=$(date +%s)
@@ -51,13 +51,19 @@ while [ $RC -eq 0 ]; do
     echo "Error (timeout): giving up after 800 seconds"
   else
     sleep 10
-    kubectl get pods --all-namespaces | grep -v 1/1 | grep -v NAME >/dev/null 2>&1
+    while true
+    do
+      kubectl get pods -n astronomer > /tmp/pods && break
+      echo "kubectl get pods timed out. retrying."
+    done
+    cat /tmp/pods | grep -v 1/1 | grep -v NAME >/dev/null 2>&1
     RC=$?
   fi
 done
 
 kill $WATCH_PID
 
+# Output debugging information
 if [ $HELM_CODE -eq 0 ]; then
   echo "Astronomer deployed!"
 else
