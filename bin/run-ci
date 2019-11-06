@@ -51,11 +51,11 @@ while [ $RC -eq 0 ]; do
     echo "Error (timeout): giving up after 800 seconds"
   else
     sleep 10
-    while true
-    do
-      kubectl get pods -n astronomer > /tmp/pods && break
+    kubectl get pods -n astronomer > /tmp/pods
+    if [ ! $? -eq 0 ];then
       echo "kubectl get pods timed out. retrying."
-    done
+      continue
+    fi
     cat /tmp/pods | grep -v 1/1 | grep -v NAME >/dev/null 2>&1
     RC=$?
   fi
