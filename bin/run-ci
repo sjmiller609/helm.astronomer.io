@@ -23,6 +23,7 @@ WATCH_PID=$!
 
 helm install \
   --wait \
+  --timeout 500 \
   --namespace astronomer \
   -n astronomer \
   -f configs/local-dev.yaml \
@@ -40,11 +41,11 @@ if [ $HELM_CODE -eq 0 ]; then
 else
   echo "Failed to deploy Astronomer!"
   echo "Printing description and logs where containers in pod are not 1/1..."
-  for pod in $(kubectl get pods -n astronomer | grep -v NAME | grep 1/1 | awk '{ print $1 }'); do
+  for pod in $(kubectl get pods -n astronomer | grep -v NAME | grep -v 1/1 | awk '{ print $1 }'); do
     echo "======================="
     set -x
     kubectl describe pod -n astronomer $pod
-    kubectl logs -n astronomer $pod
+    kubectl logs -n astronomer $pod | tail -n 30
     set +x
     echo "======================="
   done
