@@ -13,14 +13,34 @@ source $REPO_DIR/bin/install-ci-tools
 gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
 source $REPO_DIR/bin/setup-kind
 
-set -e
+echo "Deploying Astronomer... (timeout in 10 minutes)"
 
-echo "Deploying Astronomer..."
+set +ex
+
 helm install -f configs/local-dev.yaml \
   --namespace astronomer -n astronomer \
   --wait \
+  --timeout 600 \
   $REPO_DIR
 
-echo "Astronomer deployed"
+HELM_CODE=$?
+
+
+if [ $HELM_CODE -eq 0 ]; then
+  echo "Astronomer deployed!"
+else
+  echo "Failed to deploy Astronomer!"
+  echo "Printing description and logs where containers in pod are not 1/1..."
+  for pod in $(kubectl get pods -n astronomer | grep -v NAME | grep 1/1 | awk '{ print $1 }'); do
+    echo "======================="
+    set -x
+    kubectl describe pod -n astronomer $pod
+    kubectl logs -n astronomer $pod
+    set +x
+    echo "======================="
+  done
+if
 
 kubectl get pods --all-namespaces
+
+exit $HELM_CODE

@@ -27,11 +27,11 @@ mv ./kind /tmp/bin/
 # Install helm
 wget https://get.helm.sh/helm-v${HELM_VERSION}-${OS}-amd64.tar.gz
 tar -zxvf ./helm-v${HELM_VERSION}-${OS}-amd64.tar.gz
-mv linux-amd64/helm /tmp/bin/
+mv ${OS}-amd64/helm /tmp/bin/
 
 # Install kubectl
 cd /tmp/bin
-curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/${OS}/amd64/kubectl
 chmod +x ./kubectl
 
 # Install gcloud SDK
