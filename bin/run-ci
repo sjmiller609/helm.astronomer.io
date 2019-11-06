@@ -13,18 +13,27 @@ source $REPO_DIR/bin/install-ci-tools
 gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
 source $REPO_DIR/bin/setup-kind
 
-echo "Deploying Astronomer... (timeout in 10 minutes)"
+echo "Deploying Astronomer..."
+
 
 set +ex
 
-helm install -f configs/local-dev.yaml \
-  --namespace astronomer -n astronomer \
+kubectl get pods -n astronomer -w &
+WATCH_PID=$!
+
+helm install \
   --wait \
-  --timeout 600 \
+  --namespace astronomer \
+  -n astronomer \
+  -f configs/local-dev.yaml \
+  --set tags.platform=true \
+  --set tags.logging=true \
+  --set tags.monitoring=true \
+  --set tags.kubed=true \
   $REPO_DIR
 
 HELM_CODE=$?
-
+kill $WATCH_PID
 
 if [ $HELM_CODE -eq 0 ]; then
   echo "Astronomer deployed!"

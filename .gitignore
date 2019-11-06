@@ -13,3 +13,4 @@ repository
 letsencrypt*
 backup
 dev-account.json
+*.swp
