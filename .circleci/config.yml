@@ -3,7 +3,8 @@ version: 2
 jobs:
   platform:
     machine:
-      image: ubuntu-1604:201903-01
+      image: ubuntu-1604
+      resource_class: large
     steps:
       - checkout
       - run:
@@ -11,23 +12,25 @@ jobs:
           command: bin/run-ci platform
   monitoring:
     machine:
-      image: ubuntu-1604:201903-01
+      image: ubuntu-1604
+      resource_class: large
     steps:
       - checkout
       - run:
           name: Monitoring
           command: bin/run-ci monitoring
-  # logging:
-  #   machine:
-  #     image: ubuntu-1604:201903-01
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: Logging
-  #         command: bin/run-ci logging
+  logging:
+    machine:
+      image: ubuntu-1604
+      resource_class: large
+    steps:
+      - checkout
+      - run:
+          name: Logging
+          command: bin/run-ci logging
   kubed:
     machine:
-      image: ubuntu-1604:201903-01
+      image: ubuntu-1604
     steps:
       - checkout
       - run:
@@ -40,5 +43,5 @@ workflows:
     jobs:
       - platform
       - monitoring
-      # - logging
+      - logging
       - kubed
