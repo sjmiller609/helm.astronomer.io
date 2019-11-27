@@ -22,7 +22,7 @@ images:
     pullPolicy: IfNotPresent
   orbit:
     repository: astronomerinc/ap-orbit-ui
-    tag: 0.10.3
+    tag: 0.10.1
     pullPolicy: IfNotPresent
   dbBootstrapper:
     repository: astronomerinc/ap-db-bootstrapper
@@ -135,8 +135,8 @@ registry:
   auth:
     secretName: ~
     connection: ~
-    service: "docker-registry"
-    issuer: "houston"
+    service: docker-registry
+    issuer: houston
 
   gcs:
     enabled: false
@@ -144,7 +144,6 @@ registry:
     keyfile: /var/gcs-keyfile/astronomer-gcs-keyfile
     rootdirectory: /
     chunksize: '5242880'
-  
   azure:
     enabled: false
     accountname: ~
